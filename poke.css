@@ -38,7 +38,7 @@ body {
   justify-content: center;
 }
 .p-anima-3:hover {
-  color: #fff;
+  color: #ffffff9c;
   margin: 2rem 0; /*marigin 枠線の外　余白　rem　１文字分*/
   padding: 2px 0px; /*上下　左右*/
   text-decoration: none;
@@ -46,9 +46,10 @@ body {
   justify-content: center;
 }
 .p-anima-3::before {
+  color: #000000;
   content: "";
   display: block;
-  background-color: #fff;
+  background-color: #ececdf6c;
   position: absolute;
   top: 0;
   left: 0;

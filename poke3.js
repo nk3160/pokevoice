@@ -413,8 +413,15 @@ var button = document.getElementById('button'),
         '386 デオキシス'
     ];
 
+    const getball = new Audio('get.mp3');
+
     var r = Math.random();
     var audio = new Audio();
+    
+    window.onload = function(){
+        // ページ読み込み時に実行
+        document.getElementById('b1').style.visibility = 'hidden'
+        }
     
     var playPoke = function() {
     
@@ -430,16 +437,35 @@ var button = document.getElementById('button'),
         //鳴き声選出
         audio.src = audioArr[num];
         audio.play();
+    
+        //回答ボタン表示
+        document.getElementById('b1').style.visibility = 'visible'
     }
     
     var AnswerPoke = function() {
     
         if (!alert('OK で答えを表示します。')) {
+
+            document.getElementById('b0').style.visibility = 'hidden'
+
             imageArea.src = imageArr[Math.floor(r * audioArr.length)];
             document.getElementById("area").innerText = "答えは... " + "\u00a0" + " No." + nameArr[Math.floor(r * nameArr.length)] + "\u00a0" + "\u00a0" + " でした～";
-
+    
             audio.src = audioArr[num];
-            audio.play();
+    
+            getball.currentTime = 0;
+            getball.volume = 0.4;
+            getball.play();
+    
+            window.setTimeout(voice, 1700);
+
+            function voice(){
+                audio.play();
+                document.getElementById('b0').style.visibility = 'visible'
+            }
         }
         r = Math.random();
+    
+        //回答ボタン非表示
+        document.getElementById('b1').style.visibility = 'hidden'
     }
