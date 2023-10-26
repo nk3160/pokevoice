@@ -1,4 +1,4 @@
-var button = document.getElementById('button'),
+//図鑑番号順のポケモン鳴き声リスト
     audioArr = [
         'voice/387.wav',
         'voice/388.wav',
@@ -108,7 +108,7 @@ var button = document.getElementById('button'),
         'voice/492.wav',
         'voice/493.wav'
     ];
-
+    //図鑑番号順のドット絵リスト
     imageArr = [
         'image/387.png',
         'image/388.png',
@@ -218,7 +218,7 @@ var button = document.getElementById('button'),
         'image/492.png',
         'image/493.png'
     ];
-
+//図鑑番号順のポケモンリスト
     nameArr = [
         '387 ナエトル',
         '388 ハヤシガメ',
@@ -329,59 +329,86 @@ var button = document.getElementById('button'),
         '493 アルセウス'
     ];
 
-    const getball = new Audio('get.mp3');
+//ボール排出効果音
+const getball = new Audio('get.mp3');
+//乱数用変数
+var r = Math.random();
+//オーディオ格納
+var audio = new Audio();
 
-    var r = Math.random();
-    var audio = new Audio();
-    
-    window.onload = function(){
-        // ページ読み込み時に実行
-        document.getElementById('b1').style.visibility = 'hidden'
-        }
-    
-    var playPoke = function() {
-    
-        document.getElementById("area").innerText = "このポケモン、だ～れだ？";
-        document.getElementById("imageArea").src = "ball.png";
-    
-        num = Math.floor(r * audioArr.length);
-    
-        if (num == audioArr.length) {
-            num = audioArr.length - 1;
-        }
-    
-        //鳴き声選出
-        audio.src = audioArr[num];
-        audio.play();
-    
-        //回答ボタン表示
-        document.getElementById('b1').style.visibility = 'visible'
+// ページ読み込み時に実行
+window.onload = function(){
+
+    //回答ボタンを非表示
+    document.getElementById('b1').style.visibility = 'hidden'
+
+}
+
+//再生ボタン押下で実行
+var playPoke = function() {
+
+    //htmlの画像とテキストを変更
+    document.getElementById("area").innerText = "このポケモン、だ～れだ？";
+    document.getElementById("imageArea").src = "ball.png";
+
+    //乱数を参照し、ポケモンNo.を取得
+    num = Math.floor(r * audioArr.length);
+    //数合わせの調整
+    if (num == audioArr.length) {
+        num = audioArr.length - 1;
     }
-    
-    var AnswerPoke = function() {
-    
-        if (!alert('OK で答えを表示します。')) {
 
-            document.getElementById('b0').style.visibility = 'hidden'
+    //鳴き声選出
+    audio.src = audioArr[num];
+    //鳴き声再生
+    audio.play();
 
-            imageArea.src = imageArr[Math.floor(r * audioArr.length)];
-            document.getElementById("area").innerText = "答えは... " + "\u00a0" + " No." + nameArr[Math.floor(r * nameArr.length)] + "\u00a0" + "\u00a0" + " でした～";
-    
-            audio.src = audioArr[num];
-    
-            getball.currentTime = 0;
-            getball.volume = 0.4;
-            getball.play();
-    
-            window.setTimeout(voice, 1700);
+    //回答ボタン表示
+    document.getElementById('b1').style.visibility = 'visible'
+}
 
-            function voice(){
-                audio.play();
-                document.getElementById('b0').style.visibility = 'visible'
-            }
+//回答ボタン押下で実行
+var AnswerPoke = function() {
+
+    //アラートを表示
+    var res = confirm('OK で答えを表示します。');
+
+    //okを押下
+    if (res == true) {
+
+        //誤動作のため再生ボタンを一旦非表示
+        document.getElementById('b0').style.visibility = 'hidden'
+
+        //乱数を参照し、画像データを取得
+        imageArea.src = imageArr[Math.floor(r * audioArr.length)];
+
+        //htmlを答えに変更
+        document.getElementById("area").innerText = "答えは... " + "\u00a0" + " No." + nameArr[Math.floor(r * nameArr.length)] + "\u00a0" + "\u00a0" + " でした～";
+
+        //音声データを参照
+        audio.src = audioArr[num];
+
+        //ボール効果音の調整と再生
+        getball.currentTime = 0;
+        getball.volume = 0.4;
+        getball.play();
+
+        //1.7秒後に実行
+        window.setTimeout(voice, 1700);
+        //再度、答えポケモンの鳴き声を鳴らす
+        function voice(){
+            audio.play();
+            //再生ボタンを表示
+            document.getElementById('b0').style.visibility = 'visible'
         }
+
+        //乱数を再生成
         r = Math.random();
-    
         //回答ボタン非表示
         document.getElementById('b1').style.visibility = 'hidden'
+    
+    //キャンセル押下
+    }else{
+        //何も起きない
     }
+}

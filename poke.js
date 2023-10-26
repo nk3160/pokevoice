@@ -1,4 +1,4 @@
-var button = document.getElementById('button'),
+//図鑑番号順のポケモン鳴き声リスト
     audioArr = [
         'voice/001.wav',
         'voice/002.wav',
@@ -650,7 +650,7 @@ var button = document.getElementById('button'),
         'voice/648.wav',
         'voice/649.wav'
     ];
-
+    //図鑑番号順のドット絵リスト
     imageArr = [
         'image/001.png',
         'image/002.png',
@@ -1302,7 +1302,7 @@ var button = document.getElementById('button'),
         'image/648.png',
         'image/649.png'
     ];
-
+//図鑑番号順のポケモンリスト
     nameArr = [
         '001 フシギダネ',
         '002 フシギソウ',
@@ -1955,59 +1955,86 @@ var button = document.getElementById('button'),
         '649 ゲノセクト',
     ];
 
+//ボール排出効果音
 const getball = new Audio('get.mp3');
-
+//乱数用変数
 var r = Math.random();
+//オーディオ格納
 var audio = new Audio();
 
+// ページ読み込み時に実行
 window.onload = function(){
-    // ページ読み込み時に実行
-    document.getElementById('b1').style.visibility = 'hidden'
-    }
 
+    //回答ボタンを非表示
+    document.getElementById('b1').style.visibility = 'hidden'
+
+}
+
+//再生ボタン押下で実行
 var playPoke = function() {
 
+    //htmlの画像とテキストを変更
     document.getElementById("area").innerText = "このポケモン、だ～れだ？";
     document.getElementById("imageArea").src = "ball.png";
 
+    //乱数を参照し、ポケモンNo.を取得
     num = Math.floor(r * audioArr.length);
-
+    //数合わせの調整
     if (num == audioArr.length) {
         num = audioArr.length - 1;
     }
 
     //鳴き声選出
     audio.src = audioArr[num];
+    //鳴き声再生
     audio.play();
 
     //回答ボタン表示
     document.getElementById('b1').style.visibility = 'visible'
 }
 
+//回答ボタン押下で実行
 var AnswerPoke = function() {
 
-    if (!alert('OK で答えを表示します。')) {
+    //アラートを表示
+    var res = confirm('OK で答えを表示します。');
 
+    //okを押下
+    if (res == true) {
+
+        //誤動作のため再生ボタンを一旦非表示
         document.getElementById('b0').style.visibility = 'hidden'
 
+        //乱数を参照し、画像データを取得
         imageArea.src = imageArr[Math.floor(r * audioArr.length)];
+
+        //htmlを答えに変更
         document.getElementById("area").innerText = "答えは... " + "\u00a0" + " No." + nameArr[Math.floor(r * nameArr.length)] + "\u00a0" + "\u00a0" + " でした～";
 
+        //音声データを参照
         audio.src = audioArr[num];
 
+        //ボール効果音の調整と再生
         getball.currentTime = 0;
         getball.volume = 0.4;
         getball.play();
 
+        //1.7秒後に実行
         window.setTimeout(voice, 1700);
-
+        //再度、答えポケモンの鳴き声を鳴らす
         function voice(){
             audio.play();
+            //再生ボタンを表示
             document.getElementById('b0').style.visibility = 'visible'
         }
-    }
-    r = Math.random();
 
-    //回答ボタン非表示
-    document.getElementById('b1').style.visibility = 'hidden'
+        //乱数を再生成
+        r = Math.random();
+        //回答ボタン非表示
+        document.getElementById('b1').style.visibility = 'hidden'
+    
+    //キャンセル押下
+    }else{
+        //何も起きない
+    }
 }
