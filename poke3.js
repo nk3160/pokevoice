@@ -474,7 +474,7 @@ var AnswerPoke = function() {
 
         //ボール効果音の調整と再生
         getball.currentTime = 0;
-        getball.volume = 0.4;
+        getball.volume = 0.6;
         getball.play();
 
         //1.7秒後に実行
